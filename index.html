@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code & Barcode Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff7f7f, #ffcccc);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #d32f2f;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #c62828;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ff7f7f;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #ff5252;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    button:hover {
+      background: #d32f2f;
+    }
+
+    .output {
+      margin-top: 1.5rem;
+    }
+
+    .output img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ff7f7f;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+
+    svg {
+      border: 1px solid #ff7f7f;
+      border-radius: 5px;
+      background: #fff;
+      padding: 10px;
+    }
+  </style>
+  <!-- QR Code Library -->
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <!-- Barcode Library -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code & Barcode Generator</h1>
+
+    <!-- QR Code Generator -->
+    <label for="qrInput">Enter Text for QR Code:</label>
+    <input type="text" id="qrInput" placeholder="e.g., https://example.com">
+    <button onclick="generateQRCode()">Generate QR Code</button>
+    <div class="output">
+      <div id="qrcode"></div>
+    </div>
+
+    <!-- Barcode Generator -->
+    <label for="barcodeInput">Enter Text for Barcode:</label>
+    <input type="text" id="barcodeInput" placeholder="e.g., 123456789">
+    <button onclick="generateBarcode()">Generate Barcode</button>
+    <div class="output">
+      <svg id="barcode"></svg>
+    </div>
+  </div>
+
+  <script>
+    // Generate QR Code
+    function generateQRCode() {
+      const input = document.getElementById("qrInput").value;
+      const qrcodeDiv = document.getElementById("qrcode");
+
+      // Clear previous QR Code
+      qrcodeDiv.innerHTML = "";
+
+      if (input) {
+        // Generate new QR Code
+        new QRCode(qrcodeDiv, {
+          text: input,
+          width: 200,
+          height: 200,
+          colorDark: "#d32f2f", // Red color for QR code
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        alert("Please enter some text for the QR Code!");
+      }
+    }
+
+    // Generate Barcode
+    function generateBarcode() {
+      const input = document.getElementById("barcodeInput").value;
+      const barcodeSvg = document.getElementById("barcode");
+
+      // Clear previous Barcode
+      barcodeSvg.innerHTML = "";
+
+      if (input) {
+        // Generate new Barcode
+        JsBarcode("#barcode", input, {
+          format: "CODE128",
+          width: 2,
+          height: 100,
+          displayValue: true,
+          fontOptions: "bold",
+          font: "Arial",
+          textMargin: 10,
+          fontSize: 20,
+          background: "#ffffff",
+          lineColor: "#d32f2f" // Red color for barcode
+        });
+      } else {
+        alert("Please enter some text for the Barcode!");
+      }
+    }
+  </script>
+</body>
+</html>
